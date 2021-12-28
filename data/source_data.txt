@@ -11,6 +11,9 @@ https://www.ecdc.europa.eu/en/covid-19/data
     3. Data on the daily number of new reported COVID-19 cases and deaths by EU/EEA country:
     https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country
 
+- Data Extra sobre Lat Long Paises: 
+https://www.kaggle.com/nikitagrec/world-capitals-gps
+
 - Ejemplo dashboard sobre tracker de vacunacion: 
     1. https://qap.ecdc.europa.eu/public/extensions/COVID-19/vaccine-tracker.html#uptake-tab
     2. https://qap.ecdc.europa.eu/public/extensions/COVID-19/vaccine-tracker.html#age-group-tab #Segmentado por tramo de edades
