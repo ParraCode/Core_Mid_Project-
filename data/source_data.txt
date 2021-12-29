@@ -10,6 +10,8 @@ https://www.ecdc.europa.eu/en/covid-19/data
     https://www.ecdc.europa.eu/en/publications-data/data-virus-variants-covid-19-eueea
     3. Data on the daily number of new reported COVID-19 cases and deaths by EU/EEA country:
     https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country
+    4. Data on hospital and ICU admission rates and current occupancy for COVID-19:
+    https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
 
 - Data Extra sobre Lat Long Paises: 
 https://www.kaggle.com/nikitagrec/world-capitals-gps
