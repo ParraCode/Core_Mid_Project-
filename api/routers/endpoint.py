@@ -22,6 +22,6 @@ def get_list_country ():
 # Esta bien para hacer un grafico de lineas
 @router.get("/country/{country}")
 def get_country_data(country: str):
-    results = list(covid.find({"country":country}, {'confirmed':1, 'date':1}))
-    return loads(json_util.dumps(results))
+    results = list(covid.find({"country":country}, {'confirmed':1, 'recovered':1}))
+    return loads(json_util.dumps(results.to_frame()))
 

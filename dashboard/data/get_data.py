@@ -3,8 +3,7 @@
 # funciones para recoger datos y luego jugar con ellos en los graficos 
 
 import requests
-from dashboard.config.config_api import url
-
+from config.config_api import url 
 
 # Endpoint Numero 1
 def get_all_country():
