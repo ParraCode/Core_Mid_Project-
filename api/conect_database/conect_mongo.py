@@ -8,7 +8,7 @@ username = os.getenv("MONGO_USER")
 password = os.getenv("MONGO_PASSWORD")
 
 URL = f"mongodb+srv://{username}:{password}@parracode.p3gyj.mongodb.net"
-db = MongoClient(URL).get_database("parracode_mid_project")
+db = MongoClient(URL).get_database("Covid19")
 
 # saco la coleccion covid de mongo 
-covid = db['covid']
+covid = db['CovidDB']
