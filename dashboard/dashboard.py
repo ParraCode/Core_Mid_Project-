@@ -3,25 +3,35 @@
 # diferentes Strealits y luego los juntos aqui para crear ese dashboard multipagina. 
 # Tendria que crear un directorio que contuviese todas las paginas y que este al mismo nivel que este archivo 
 
+# streamlit run dashboard/dashboard.py
 import streamlit as st
-from data.get_data import get_all_country , get_country_data
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
-def fecha_int_transf (core_df):
-    import pandas as pd
-    core_df = pd.DataFrame(core_df, columns = ['_id','recovered','confirmed'])
-    core_df = core_df.drop(['_id'], axis=1)
-    #core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
-    #core_df['date'] = pd.to_datetime(core_df['date'])
-    #core_df['_id'] = core_df.index
-    return core_df
+from utils.process_data import covid_cases_graph, fecha_int_transf
+
+from data.get_data import get_list_country_of_countrys, get_one_europe_cuntry, get_data_confirmed_perd_day
+
 
 st.title('Coviboard Core Core')
 
-all_country =  get_all_country()
-chosen_country = st.selectbox('Escoge el pais', all_country)
+# Lista de paises, y elijo un pais 
+list_countrys = get_list_country_of_countrys()
+
+country_selected = st.sidebar.selectbox('Select your Contienent:', list_countrys)
+
+# Dado el pais anterior obtengo los datos de confirmados para ese pais 
+data_confirmed = get_data_confirmed_perd_day(country_selected)
+
+#  Proceso el json y lo hago dataframe 
+df_country = fecha_int_transf(data_confirmed)
+
+# Meto el dataframe y ploteo 
+st.line_chart(data=df_country, width=0, height=0, use_container_width=True)
 
 
-data_country = get_country_data(chosen_country)
-
-st.line_chart(data=fecha_int_transf(data_country), 
-width=0, height=0, use_container_width=True)
+print(list_countrys, type(list_countrys))
+print(country_selected, type(country_selected))
+print(data_confirmed, type(data_confirmed))
+print(df_country, type(df_country))

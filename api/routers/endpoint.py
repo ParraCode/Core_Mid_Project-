@@ -11,17 +11,27 @@ from json import loads
 
 router = APIRouter()
 
-# Numero 1: Recoge una lista con todos los distintos paises de mi coleccion
-@router.get("/country")
-def get_list_country ():
-    results = list(covid.find({}, {"country":1}).distinct("country"))
+
+# No se usa
+@router.get("/continent")
+def get_list_continent ():
+    results = list(covid.find({}, {"continent":1, "_id":0}).distinct("continent"))
     return loads(json_util.dumps(results))
 
+# Si se usa
+@router.get("/continent/Europe")
+def get_list_country_of_countrys ():
+    results = list(covid.find({"continent":"Europe"}, {"country":1, "_id":0}).distinct("country"))
+    return loads(json_util.dumps(results))
+
+# No se usa
+@router.get("/continent/Europe/{country}")
+def get_one_europe_cuntry (country: str):
+    results = list(covid.find({"continent":"Europe", "country":country},{"country":1, "_id":0}).distinct("country"))
+    return loads(json_util.dumps(results))
 
 # Numero 2: Dado un pais, devuelve los casos confirmados y la decha de dichos casos
-# Esta bien para hacer un grafico de lineas
-@router.get("/country/{country}")
-def get_country_data(country: str):
-    results = list(covid.find({"country":country}, {'confirmed':1, 'recovered':1}))
-    return loads(json_util.dumps(results.to_frame()))
-
+@router.get("/continent/Europe/{country}/confirmedDay")
+def get_data_confirmed_perd_day (country: str):
+    results = list(covid.find({"continent":"Europe", "country":country},{"confirmedDay":1, "date":1, "_id":0}))
+    return loads(json_util.dumps(results))

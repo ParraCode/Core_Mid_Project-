@@ -6,10 +6,20 @@ import requests
 from config.config_api import url 
 
 # Endpoint Numero 1
-def get_all_country():
-    return requests.get(url+"/country").json()
+def get_list_country_of_countrys():
+    base_url = url+f"/continent/Europe"
+    res = requests.get(base_url).json()
+    return res
+
+
+def get_one_europe_cuntry(country):
+    base_url = url+f"/continent/Europe/{country}"
+    res = requests.get(base_url).json()
+    return res
+
 
 # Endpoint Numero 2
-def get_country_data(country):
-    return requests.get(url+"/country/{country}").json()
-
+def get_data_confirmed_perd_day(country):
+    base_url = url+f"/continent/Europe/{country}/confirmedDay"
+    res = requests.get(base_url).json()
+    return res
