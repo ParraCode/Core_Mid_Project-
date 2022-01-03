@@ -13,10 +13,18 @@ def covid_cases_graph(data):
         plt.legend()
     return plt
 
-def fecha_int_transf (core_df):
-    core_df = pd.DataFrame(core_df, columns = ['_id','date','confirmedDay'])
+def fechaDay_int_transf (core_df):
+    import pandas as pd
+    core_df = pd.DataFrame(core_df, columns = ['_id','date','totalConfirmed', 'totalDeaths'])
     core_df = core_df.drop(['_id'], axis=1)
     core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
     core_df['date'] = pd.to_datetime(core_df['date'])
-    core_df['_id'] = core_df.index
+    core_df = core_df.set_index(['date'])
+    return core_df
+
+def fechaYW_int_transf (core_df):
+    import pandas as pd
+    core_df = pd.DataFrame(core_df, columns = ['_id', 'Year-Week','date','confirmedDay', 'deathsDay'])
+    core_df = core_df.drop(['_id'], axis=1)
+    core_df = core_df.groupby('Year-Week').sum()
     return core_df

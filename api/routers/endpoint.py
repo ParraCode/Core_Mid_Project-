@@ -18,20 +18,19 @@ def get_list_continent ():
     results = list(covid.find({}, {"continent":1, "_id":0}).distinct("continent"))
     return loads(json_util.dumps(results))
 
-# Si se usa
-@router.get("/continent/Europe")
-def get_list_country_of_countrys ():
-    results = list(covid.find({"continent":"Europe"}, {"country":1, "_id":0}).distinct("country"))
+# No se
+@router.get("/continent/{continent}")
+def get_list_countrys_of_continent (continent: str):
+    results = list(covid.find({"continent":continent}, {"country":1, "_id":0}).distinct("country"))
     return loads(json_util.dumps(results))
 
-# No se usa
-@router.get("/continent/Europe/{country}")
-def get_one_europe_cuntry (country: str):
-    results = list(covid.find({"continent":"Europe", "country":country},{"country":1, "_id":0}).distinct("country"))
+
+@router.get("/continent/{continent}/{country}/confirmedDay")
+def get_data_confirmed_perd_day (continent: str,country: str):
+    results = list(covid.find({"continent":continent, "country":country},{"totalConfirmed":1,"totalDeaths":1, "date":1, "_id":0}))
     return loads(json_util.dumps(results))
 
-# Numero 2: Dado un pais, devuelve los casos confirmados y la decha de dichos casos
-@router.get("/continent/Europe/{country}/confirmedDay")
-def get_data_confirmed_perd_day (country: str):
-    results = list(covid.find({"continent":"Europe", "country":country},{"confirmedDay":1, "date":1, "_id":0}))
+@router.get("/continent/{continent}/{country}/DataWeek")
+def get_data_confirmed_perd_week (continent: str,country: str):
+    results = list(covid.find({"continent":continent, "country":country},{"confirmed":1,"deaths":1, "Year-Week":1, "date":1,"_id":0}))
     return loads(json_util.dumps(results))
