@@ -8,11 +8,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
-from st_aggrid.shared import GridUpdateMode
-import plotly_express as px
+
 
 from utils.process_data import *
 
@@ -95,30 +91,18 @@ df_country = fechaDay_int_transf(data_confirmed)
     # Meto el dataframe y ploteo 
 col1.line_chart(data=df_country, width=0, height=0, use_container_width=True)
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+#VARIANTES
 
-    #st.metric('label', df_country.max(), delta=None, delta_color="normal")
+data_variant = get_variant_db()
 
+variant_list = variant_TR (data_variant)
+
+
+variants_selected = st.multiselect('Selecciona las variantes', variant_list, default='Delta')
 
     # Mapa 
 country_loc = country_location_coord(country_location())
 st.map(country_loc)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
-'''
-st.title("Covid DB shows analysis")
-
-shows = alldb(get_all_data_base())
-gb = GridOptionsBuilder.from_dataframe(shows)
-gb.configure_pagination()
-gb.configure_side_bar()
-gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
-gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-gridOptions = gb.build()
-data = AgGrid(shows, 
-              gridOptions=gridOptions, 
-              enable_enterprise_modules=True, 
-              allow_unsafe_jscode=True, 
-              update_mode=GridUpdateMode.SELECTION_CHANGED)
-
-st.download_button(label='Dowload CSV',data = shows.to_csv(), mime='text/csv')
-'''

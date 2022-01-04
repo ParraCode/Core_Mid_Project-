@@ -44,4 +44,25 @@ def alldb (core_df):
     core_df['fullyVaccinatedPerHundred'] = core_df['fullyVaccinatedPerHundred'].astype(float)
     return core_df
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------
+# VARIANTS
+
+def variant_db_TR (core_df):
+    import pandas as pd
+    core_df = pd.DataFrame(core_df, columns = ['date', 'country','variant', 'year', 'latitude','longitude','continentExp'])
+    core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
+    core_df['latitude'] = core_df['latitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df['longitude'] = core_df['longitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df['year'] = core_df['year'].astype(int)
+    core_df['variant'] = core_df['variant'].astype(str)
+    core_df['continentExp'] = core_df['continentExp'].astype(str)
+    core_df['date'] = pd.to_datetime(core_df['date'])
+    return core_df
+
+def variant_TR (core_df):
+    core_df = pd.DataFrame(core_df, columns = ['date', 'country','variant', 'year', 'latitude','longitude','continentExp'])
+    core_df = core_df.drop(['date', 'country', 'year', 'latitude','longitude','continentExp'], axis=1)
+    core_df['variant'] = core_df['variant'].astype(str)
+    core_df = core_df.drop_duplicates()
+    return list(core_df['variant'])
     

@@ -60,7 +60,17 @@ def get_data_confirmed_perd_week (continent: str,country: str):
 # VARIANT
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+@router.get("/variant/{variants}")
+def get_variant_db (variants: str):
+    results = list(variant.find({"variant":variants}, {"date":1, "country":1, "variant":1, "latitude":1,
+                                                      "longitude":1,"year":1,"yearWeek":1,"continentExp":1,"_id":0}))
+    return loads(json_util.dumps(results))
 
+@router.get("/variant")
+def get_variant_db ():
+    results = list(variant.find({}, {"date":1, "country":1, "variant":1, "latitude":1,
+                                    "longitude":1,"year":1,"yearWeek":1,"continentExp":1,"_id":0}))
+    return loads(json_util.dumps(results))
 
 
 
