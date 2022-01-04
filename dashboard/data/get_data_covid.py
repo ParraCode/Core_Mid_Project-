@@ -10,6 +10,11 @@ def get_all_data_base():
     res = requests.get(base_url).json()
     return res
 
+def get_all_data_base_TR(country):
+    base_url = url+f"/alldb/{country}"
+    res = requests.get(base_url).json()
+    return res
+
 
 def get_list_continent():
     base_url = url+"/continent"

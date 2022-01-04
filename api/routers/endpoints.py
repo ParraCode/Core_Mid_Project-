@@ -21,6 +21,13 @@ def get_all_db ():
                                    "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"icuPatients":1,"_id":0}))
     return loads(json_util.dumps(results))
 
+@router.get("/alldb/{country}")
+def get_all_db_country (country: str):
+    results = list(covid.find({"country":country}, {"date":1,"continent":1,"country":1,"totalConfirmed":1,"totalDeaths":1,"deathsDay":1,"confirmedDay":1,"icuPatients":1,
+                                   "hospPatients":1,"totalTest":1,"positiveRate":1,"testPerCase":1,"newVaccinations":1,
+                                   "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"icuPatients":1,"_id":0}))
+    return loads(json_util.dumps(results))
+
 @router.get("/continent")
 def get_list_continent ():
     results = list(covid.find({}, {"continent":1, "_id":0}).distinct("continent"))
