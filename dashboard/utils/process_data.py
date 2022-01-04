@@ -28,3 +28,15 @@ def fechaYW_int_transf (core_df):
     core_df = core_df.drop(['_id'], axis=1)
     core_df = core_df.groupby('Year-Week').sum()
     return core_df
+
+
+def country_location_coord (core_df):
+    import pandas as pd
+    core_df = pd.DataFrame(core_df, columns = ['latitude', 'longitude'])
+    core_df['latitude'] = core_df['latitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df['longitude'] = core_df['longitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df = core_df.drop_duplicates()
+    core_df = core_df.reset_index(drop=True)
+    return core_df
+
+    

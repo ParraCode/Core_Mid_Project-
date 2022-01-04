@@ -3,7 +3,7 @@
 # Este el archivo que voy a llamar desde consola y que pone a funcionar el resto de directorios de api/
 
 from fastapi import FastAPI
-from .routers import endpoint
+from .routers import endpoints
 
 # To run in shell:
 # uvicorn api.main:app --reload
@@ -11,7 +11,7 @@ from .routers import endpoint
 app = FastAPI()
 
 # Defino los router a mis archivo/s endopoint/s
-app.include_router(endpoint.router)
+app.include_router(endpoints.router)
 
 
 # Mensaje para el root para saber en que consiste esta API
