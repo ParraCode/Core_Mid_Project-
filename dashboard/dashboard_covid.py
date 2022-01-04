@@ -104,24 +104,21 @@ country_loc = country_location_coord(country_location())
 st.map(country_loc)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
-
+'''
 st.title("Covid DB shows analysis")
 
-shows = pd.read_csv("../data/CovidDB.csv")
-
-# add this
+shows = alldb(get_all_data_base())
 gb = GridOptionsBuilder.from_dataframe(shows)
-
 gb.configure_pagination()
 gb.configure_side_bar()
 gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
 gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-
 gridOptions = gb.build()
-
 data = AgGrid(shows, 
               gridOptions=gridOptions, 
               enable_enterprise_modules=True, 
               allow_unsafe_jscode=True, 
               update_mode=GridUpdateMode.SELECTION_CHANGED)
+
 st.download_button(label='Dowload CSV',data = shows.to_csv(), mime='text/csv')
+'''

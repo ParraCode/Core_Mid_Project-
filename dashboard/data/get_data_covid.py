@@ -5,6 +5,12 @@
 import requests
 from config.config_api import url 
 
+def get_all_data_base():
+    base_url = url+"/alldb"
+    res = requests.get(base_url).json()
+    return res
+
+
 def get_list_continent():
     base_url = url+"/continent"
     res = requests.get(base_url).json()

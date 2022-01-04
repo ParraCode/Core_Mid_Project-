@@ -14,6 +14,13 @@ router = APIRouter()
 # COVID
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+@router.get("/alldb")
+def get_all_db ():
+    results = list(covid.find({}, {"date":1,"continent":1,"country":1,"totalConfirmed":1,"totalDeaths":1,"deathsDay":1,"confirmedDay":1,"icuPatients":1,
+                                   "hospPatients":1,"totalTest":1,"positiveRate":1,"testPerCase":1,"newVaccinations":1,
+                                   "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"icuPatients":1,"_id":0}))
+    return loads(json_util.dumps(results))
+
 @router.get("/continent")
 def get_list_continent ():
     results = list(covid.find({}, {"continent":1, "_id":0}).distinct("continent"))
@@ -40,6 +47,12 @@ def get_data_confirmed_perd_day (continent: str,country: str):
 def get_data_confirmed_perd_week (continent: str,country: str):
     results = list(covid.find({"continent":continent, "country":country},{"confirmed":1,"deaths":1, "Year-Week":1, "date":1,"_id":0}))
     return loads(json_util.dumps(results))
+
+
+
+# VARIANT
+# -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
