@@ -42,17 +42,6 @@ def get_list_countrys_of_continent(continent):
     res = requests.get(base_url).json()
     return res
 
-# Endpoint Numero 2
-def get_data_confirmed_perd_day(contienent,country):
-    base_url = url+f"/continent/{contienent}/{country}/confirmedDay"
-    res = requests.get(base_url).json()
-    return res
-
-def get_data_confirmed_perd_week(contienent,country):
-    base_url = url+f"/continent/{contienent}/{country}/DataWeek"
-    res = requests.get(base_url).json()
-    return res
-
 def get_oneline():
     base_url = url+"/alldboneline"
     res = requests.get(base_url).json()
