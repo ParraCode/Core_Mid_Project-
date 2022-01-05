@@ -1,21 +1,13 @@
-
-import numpy as np
-import pandas as pd
 import streamlit as st
-from pandas_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
-from st_aggrid.shared import GridUpdateMode
-import plotly_express as px
-
-
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import pydeck as pdk
 
 from utils.process_data import *
 from data.get_data_covid import *
 
-st.set_page_config(page_title="CovidDB Download and EDA", layout="wide") 
+st.set_page_config(page_title="CovidDB Download", layout="wide") 
 
 
 st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
@@ -56,35 +48,52 @@ country_selected = st.sidebar.selectbox('Selecciona un pais', list_countrys)
 
 data = get_all_data_base_TR(country_selected)
 
-st.title("CovidDB Download and EDA")
+st.title("Analysis of Covid-19's variants")
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+#VARIANTES
+
+data_variant = get_variant_db()
+
+variant_list = variant_TR (data_variant)
 
 
-if country_selected is not None:
-#Pandas Profiling Report
-    df = alldb(data)
-    pr = ProfileReport(df, explorative=True)
+variants_selected = st.multiselect('Selecciona las variantes', variant_list, default='Delta')
 
-    st.header('**Input DataFrame**')
+    # Mapa 
+country_loc = country_location_coord(country_location())
+st.map(country_loc)
 
-    shows = alldb(data)
-    gb = GridOptionsBuilder.from_dataframe(shows)
-    gb.configure_pagination()
-    gb.configure_side_bar()
-    gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
-    gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-    gridOptions = gb.build()
-    data = AgGrid(shows, 
-                gridOptions=gridOptions, 
-                enable_enterprise_modules=True, 
-                allow_unsafe_jscode=True, 
-                update_mode=GridUpdateMode.SELECTION_CHANGED)
-    st.write('Puedes descargar este archivo en formato .csv')
-    st.download_button(label='Download CSV',data = df.to_csv(), mime='text/csv')
-    
-    
-    #st.write(df)
-    st.write('---')
-    st.header('**Pandas Profiling Report**')
-    report = st_profile_report(pr)
-        
+# ---------------------------------------------------------------------------------------------------------------------------------------
+df = pd.DataFrame(
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    columns=['lat', 'lon'])
 
+st.pydeck_chart(pdk.Deck(
+     map_style='mapbox://styles/mapbox/light-v9',
+     initial_view_state=pdk.ViewState(
+         latitude=37.76,
+         longitude=-122.4,
+         zoom=11,
+         pitch=50,
+     ),
+     layers=[
+         pdk.Layer(
+            'HexagonLayer',
+            data=df,
+            get_position='[lon, lat]',
+            radius=200,
+            elevation_scale=5,
+            elevation_range=[0, 1000],
+            pickable=True,
+            extruded=True,
+         ),
+         pdk.Layer(
+             'ScatterplotLayer',
+             data=df,
+             get_position='[lon, lat]',
+             get_color='[200, 30, 0, 160]',
+             get_radius=200,
+         ),
+     ],
+ ))

@@ -44,6 +44,52 @@ def alldb (core_df):
     core_df['fullyVaccinatedPerHundred'] = core_df['fullyVaccinatedPerHundred'].astype(float)
     return core_df
 
+def lista_variables (var):
+    lista = list(var[0].keys())
+    lista_delete = ['date','country','continent','latitude','longitude',
+                    'Year','Month','Week','Day','Year-Week']
+    for x in lista_delete:
+        if x in lista:
+            lista.remove(x)
+    return lista
+
+def limpieza_variables_pais (var):
+    lista = list(var[0].keys())
+    lista_delete = ['continent','latitude','longitude',
+                    'Year','Month','Week','Day','Year-Week']
+    for x in lista_delete:
+        if x in lista:
+            lista.remove(x)
+    return lista
+
+
+def country_one_var_df (core_df,var):
+    columnas = limpieza_variables_pais(core_df)
+    core_df = pd.DataFrame(core_df, columns = columnas)
+    core_df = core_df.drop(core_df.columns.difference(['date','country',var]),axis=1)
+   
+    core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
+    core_df[var] = core_df[var].astype(float)
+    core_df['country'] = core_df['country'].astype(str)
+
+    country_name = core_df['country'][0]
+    core_df = core_df.rename(columns={var: country_name})
+    
+    core_df = core_df.drop(['country'],axis=1)
+    core_df['date'] = pd.to_datetime(core_df['date'])
+
+    #filter_fecha_inicial = core_df['date'] >= fecha_inicial
+    #core_df = core_df[filter_fecha_inicial]
+    #filter_fecha_final = core_df['date'] <= fecha_final
+    #core_df = core_df[filter_fecha_final]
+    
+    return core_df
+
+def merge_country_data(df1,df2):
+    df = pd.merge(df1, df2 , how='inner', on='date')
+    df = df.set_index('date')
+    return df
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------
 # VARIANTS
 

@@ -4,18 +4,30 @@
 # Tendria que crear un directorio que contuviese todas las paginas y que este al mismo nivel que este archivo 
 
 # streamlit run dashboard/dashboard.py
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Librerias
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pydeck as pdk
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Funciones
 
 from utils.process_data import *
-
 from data.get_data_covid import *
 
-st.set_page_config(page_title="Covid compare", layout="wide") 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Configuracion de pagina 
 
+st.set_page_config(page_title="Covid compare", layout="wide")
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Barra de menu 
+'''
 st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
 
 st.markdown("""
@@ -39,70 +51,68 @@ st.markdown("""
   </div>
 </nav>
 """, unsafe_allow_html=True)
+'''
 
-
-    # ---------------------------------------------------------------------------------------------------------------------------------------
-#st.set_page_config(page_title="Compare Shows", layout="wide") 
-
-    # Division en columnas 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Division en columnas 
 
 col1, col2= st.columns(2)
 
-    # ---------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Titulo
+st.sidebar.title('**Covid-19 Countr Comparations**')
 
-    # Titulo
 
-col1.title('Core Code')
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# SideBar 
 
-    # ---------------------------------------------------------------------------------------------------------------------------------------
-
-    # Side Bar 
 st.sidebar.header('1. Escoja un Contienente:',None)
 
 cotinent_selected = st.sidebar.selectbox('Selecciona tu continente',get_list_continent())
 
 st.sidebar.header('2. Escoja dos paises:',None)
 
-    # Lista de paises, y elijo un pais 
+# Lista de paises 1, y elijo un pais 
 list_countrys1 = get_list_countrys_of_continent(cotinent_selected)
 country_selected1 = st.sidebar.selectbox('Selecciona tu primer pais', list_countrys1)
 
-    # Lista de paises, y elijo un pais 
+# Lista de paises 2, y elijo un pais 
 list_countrys2 = get_list_countrys_of_continent(cotinent_selected)
+list_countrys2.remove(country_selected1)
+
 country_selected2 = st.sidebar.selectbox('Selecciona tu segundo pais', list_countrys2)
 
 st.sidebar.header('3. Escoja un periodo:',None)
 
+fecha_inicial = st.sidebar.date_input('Fecha inicial', value=None, min_value=None, max_value=None, key=None, help=None, on_change=None, args=None, kwargs=None)
 
-st.sidebar.date_input('Fecha inicial', value=None, min_value=None, max_value=None, key=None, help=None, on_change=None, args=None, kwargs=None)
-
-st.sidebar.date_input('Fecha final', value=None, min_value=None, max_value=None, key=None, help=None, on_change=None, args=None, kwargs=None)
-
+fecha_final = st.sidebar.date_input('Fecha final', value=None, min_value=None, max_value=None, key=None, help=None, on_change=None, args=None, kwargs=None)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
+# Graficos 
 
-
-    # Dado el pais anterior obtengo los datos de confirmados para ese pais 
+# Dado el pais anterior obtengo los datos de confirmados para ese pais 
 data_confirmed = get_data_confirmed_perd_day(cotinent_selected,country_selected1)
-
-    #  Proceso el json y lo hago dataframe 
+#  Proceso el json y lo hago dataframe 
 df_country = fechaDay_int_transf(data_confirmed)
 
-    # Meto el dataframe y ploteo 
-col1.line_chart(data=df_country, width=0, height=0, use_container_width=True)
 
-# ---------------------------------------------------------------------------------------------------------------------------------------
-#VARIANTES
+## Grafico 1 
+var = 'totalConfirmed'
 
-data_variant = get_variant_db()
+# Lista de variables
+var_list = lista_variables(get_oneline())
+# Selector de variable
+var_grafico1 = col1.selectbox('Selecciona la variable para el Grafico 1', var_list)
 
-variant_list = variant_TR (data_variant)
+c2 = get_data_one_country(country_selected2,var_grafico1)
+c1 = get_data_one_country(country_selected1,var_grafico1)
 
+#data
+data_country1 = country_one_var_df(c1,var_grafico1)
+data_country2 = country_one_var_df(c2,var_grafico1)
 
-variants_selected = st.multiselect('Selecciona las variantes', variant_list, default='Delta')
+df_merge_country_1_2 = merge_country_data(data_country1,data_country2)
 
-    # Mapa 
-country_loc = country_location_coord(country_location())
-st.map(country_loc)
-
-# ---------------------------------------------------------------------------------------------------------------------------------------
+# Meto el dataframe y ploteo 
+grafico_1 = col1.line_chart(data=df_merge_country_1_2, width=0, height=0, use_container_width=True)
