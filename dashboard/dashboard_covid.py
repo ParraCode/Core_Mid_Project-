@@ -85,6 +85,38 @@ with st.container():
 
     st.write('---')
 # ---------------------------------------------------------------------------------------------------------------------------------------
+# Expander variables 
+
+with st.container():
+    with st.expander("Guia variables"):
+      st.write("""
+          - icu_patients: Número de pacientes con COVID-19 en unidades de cuidados 
+          intensivos (UCI) en un día determinado
+
+          - hosp_patients: Número de pacientes con COVID-19 en el hospital en un día determinado
+
+          - total_tests: Pruebas totales para COVID-19
+
+          - positive_rate: La proporción de pruebas de COVID-19 que son positivas, expresada como un 
+          promedio móvil de 7 días (esto es lo contrario de las pruebas por caso)
+
+          - tests_per_case: Pruebas realizadas por cada nuevo caso confirmado de COVID-19, dado como un 
+          promedio móvil de 7 días (esto es lo contrario de Positive_rate)
+
+          - new_vaccinations: Nuevas dosis de vacuna COVID-19 administradas 
+          (solo calculadas para días consecutivos)
+
+          - people_vaccinated_per_hundred: Número total de personas que recibieron al menos una dosis 
+          de vacuna por cada 100 personas en la población total
+
+          - people_fully_vaccinated_per_hundred: Número total de personas que recibieron todas las dosis prescritas por el 
+          protocolo de vacunación por cada 100 personas en la población total
+
+          - population: poblacion total del pais
+       """)
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
 # Graficos 
 with st.container():
     col1, col2 = st.columns(2)
