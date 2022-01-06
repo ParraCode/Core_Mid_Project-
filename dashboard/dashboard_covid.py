@@ -87,14 +87,14 @@ with st.container():
 # ---------------------------------------------------------------------------------------------------------------------------------------
 # Graficos 
 with st.container():
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     ## Grafico 1 
     col1.header('Grafico 1')
     # Lista de variables
-    var_list = lista_variables(get_oneline())
+    var_list1 = lista_variables(get_oneline())
     # Selector de variable
-    var_grafico1 = col1.selectbox('Selecciona la variable para el Grafico 1', var_list)
+    var_grafico1 = col1.selectbox('Selecciona la variable para el Grafico 1', var_list1)
 
     c2 = get_data_one_country(country_selected2,var_grafico1)
     c1 = get_data_one_country(country_selected1,var_grafico1)
@@ -107,3 +107,69 @@ with st.container():
 
     # Meto el dataframe y ploteo 
     grafico_1 = col1.area_chart(data=df_merge_country_1_2, width=0, height=0, use_container_width=True)
+
+
+    ## Grafico 2
+    col2.header('Grafico 2')
+    # Lista de variables
+    var_list2 = lista_variables(get_oneline())
+    var_list2.remove(var_grafico1)
+    # Selector de variable
+    var_grafico2 = col2.selectbox('Selecciona la variable para el Grafico 2', var_list2) # cambiar var_list2
+
+    c3 = get_data_one_country(country_selected2,var_grafico2) # cambiar c3 # cambiar var_grafico2
+    c4 = get_data_one_country(country_selected1,var_grafico2) # cambiar c4 # cambiar var_grafico2
+
+    #data
+    data_country3 = country_one_var_df(c3,var_grafico2,start_date,end_date)
+    data_country4 = country_one_var_df(c4,var_grafico2,start_date,end_date)
+
+    df_merge_country34 = merge_country_data(data_country3,data_country4)
+
+    # Meto el dataframe y ploteo 
+    grafico_2 = col2.area_chart(data=df_merge_country34, width=0, height=0, use_container_width=True)
+
+
+    ## Grafico 3
+    col1.header('Grafico 3')
+    # Lista de variables
+    var_list3 = lista_variables(get_oneline())
+    var_list3.remove(var_grafico1)
+    var_list3.remove(var_grafico2)
+    # Selector de variable
+    var_grafico3 = col1.selectbox('Selecciona la variable para el Grafico 3', var_list3) # cambiar var_list2
+
+    c5 = get_data_one_country(country_selected2,var_grafico3) # cambiar c3 # cambiar var_grafico2
+    c6 = get_data_one_country(country_selected1,var_grafico3) # cambiar c4 # cambiar var_grafico2
+
+    #data
+    data_country5 = country_one_var_df(c5,var_grafico3,start_date,end_date)
+    data_country6 = country_one_var_df(c6,var_grafico3,start_date,end_date)
+
+    df_merge_country56 = merge_country_data(data_country5,data_country6)
+
+    # Meto el dataframe y ploteo 
+    grafico_3 = col1.area_chart(data=df_merge_country56, width=0, height=0, use_container_width=True)
+
+
+    ## Grafico 4
+    col2.header('Grafico 4')
+    # Lista de variables
+    var_list4 = lista_variables(get_oneline())
+    var_list4.remove(var_grafico1)
+    var_list4.remove(var_grafico2)
+    var_list4.remove(var_grafico3)
+    # Selector de variable
+    var_grafico4 = col2.selectbox('Selecciona la variable para el Grafico 4', var_list4) # cambiar var_list2
+
+    c7 = get_data_one_country(country_selected2,var_grafico4) # cambiar c3 # cambiar var_grafico2
+    c8 = get_data_one_country(country_selected1,var_grafico4) # cambiar c4 # cambiar var_grafico2
+
+    #data
+    data_country7 = country_one_var_df(c7,var_grafico4,start_date,end_date)
+    data_country8 = country_one_var_df(c8,var_grafico4,start_date,end_date)
+
+    df_merge_country78 = merge_country_data(data_country7,data_country8)
+
+    # Meto el dataframe y ploteo 
+    grafico_4 = col2.area_chart(data=df_merge_country34, width=0, height=0, use_container_width=True)

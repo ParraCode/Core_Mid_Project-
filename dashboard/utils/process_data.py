@@ -70,15 +70,14 @@ def country_one_var_df (core_df,var,fecha_inicial,fecha_final):
     core_df = core_df.drop(core_df.columns.difference(['date','country',var]),axis=1)
     core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
 
-    if type(core_df[var]) == 'float':
-        core_df[var] = core_df[var].apply(lambda x: list(x.values())[0])
-    else:
-        core_df[var] = core_df[var].astype(float)
+    if var in ['positiveRate','vaccinatedPerHundred','fullyVaccinatedPerHundred']:
+        core_df[var] = core_df[var].apply(lambda x: list(x.values())[0]).astype(float)
 
     core_df['country'] = core_df['country'].astype(str)
     country_name = core_df['country'][0]
     core_df = core_df.rename(columns={var: country_name})
     core_df = core_df.drop(['country'],axis=1)
+
     core_df['date'] = pd.to_datetime(core_df['date'])
 
     core_df['fecha_inicial'] = fecha_inicial
