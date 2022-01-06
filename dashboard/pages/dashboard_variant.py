@@ -50,22 +50,19 @@ def variant ():
   #VARIANTES
   with st.container():
 
-    data_variant = get_variant_db()
+    db_variant = get_variant_db()
 
-    variant_list = variant_TR (data_variant)
+    variant_list = variant_TR (db_variant)
 
+    variants_selected = st.selectbox('Selecciona las variantes', variant_list)
 
-    variants_selected = st.multiselect('Selecciona las variantes', variant_list, default='Delta')
-
+    data_select_variant = variants_map(get_variant_db(),variants_selected)
+    print(data_select_variant)
         # Mapa 
-    country_loc = country_location_coord(country_location())
-    st.map(country_loc)
+    #st.map(data_select_variant)
 
     # ---------------------------------------------------------------------------------------------------------------------------------------
-    df = pd.DataFrame(
-        np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-        columns=['lat', 'lon'])
-
+ 
     st.pydeck_chart(pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
         initial_view_state=pdk.ViewState(
@@ -77,20 +74,20 @@ def variant ():
         layers=[
             pdk.Layer(
                 'HexagonLayer',
-                data=df,
-                get_position='[lon, lat]',
-                radius=200,
-                elevation_scale=5,
+                data=data_select_variant,
+                get_position='[lon lat]',
+                radius=2000,
+                elevation_scale=9,
                 elevation_range=[0, 1000],
                 pickable=True,
                 extruded=True,
             ),
             pdk.Layer(
                 'ScatterplotLayer',
-                data=df,
+                data=data_select_variant,
                 get_position='[lon, lat]',
                 get_color='[200, 30, 0, 160]',
-                get_radius=200,
+                get_radius=2000,
             ),
         ],
     ))

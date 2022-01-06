@@ -34,7 +34,7 @@ def covid():
   st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
 
   st.markdown("""
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3498DB;">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #8ed3ac;">
     <a class="navbar-brand" href="https://www.linkedin.com/in/miguelangelparrarodriguez/" target="_blank">Miguel A. Parra</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -200,4 +200,4 @@ def covid():
       df_merge_country78 = merge_country_data(data_country7,data_country8)
 
       # Meto el dataframe y ploteo 
-      grafico_4 = col2.area_chart(data=df_merge_country34, width=0, height=0, use_container_width=True)
+      grafico_4 = col2.area_chart(data=df_merge_country78, width=0, height=0, use_container_width=True)

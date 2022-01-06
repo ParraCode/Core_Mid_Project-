@@ -118,4 +118,19 @@ def variant_TR (core_df):
     core_df['variant'] = core_df['variant'].astype(str)
     core_df = core_df.drop_duplicates()
     return list(core_df['variant'])
+
+def variants_map (core_df,var):
+    import pandas as pd
+    core_df = pd.DataFrame(core_df, columns = ['date', 'country','variant', 'year', 'longitude', 'latitude','continentExp'])
+    core_df = core_df.drop(['year','continentExp','country','date'],axis=1)
+    #core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
+    core_df['latitude'] = core_df['latitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df['longitude'] = core_df['longitude'].apply(lambda x: list(x.values())[0]).astype(float)
+    core_df['variant'] = core_df['variant'].astype(str)
+    #core_df['date'] = pd.to_datetime(core_df['date'])
+    filter_fecha_final = core_df['variant'] == var
+    core_df = core_df[filter_fecha_final]
+    core_df = core_df.drop(['variant'],axis=1)
+    core_df = core_df.reset_index(drop=True)
+    return core_df
     
