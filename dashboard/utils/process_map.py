@@ -50,12 +50,20 @@ def country_one_var_df_map (core_df,var):
     if var in ['confirmedDay','deathsDay','icuPatients','hospPatients','newVaccinations']:
         core_df[var] = core_df[var].astype(int)
         core_df[var] = core_df[var] / core_df['population']
+        core_df[var] = core_df[var] * 100_000
         core_df = core_df.drop(['population'], axis=1)
-        core_df = core_df.groupby(['country']).sum().reset_index(drop=True)
+        core_df = core_df.groupby(['country']).sum().reset_index()
 
     if var in ['positiveRate','testsPerCase','vaccinatedPerHundred','fullyVaccinatedPerHundred']:
         core_df[var] = core_df[var].apply(lambda x: list(x.values())[0]).astype(float)
         core_df = core_df.drop(['population'], axis=1)
-        core_df = core_df.groupby(['country']).mean().reset_index(drop=True)
-
+        core_df = core_df.groupby(['country']).mean().reset_index()
+    
+    filter_zero = core_df[var] > 0
+    core_df = core_df[filter_zero]
+    core_df = core_df.sort_values(var)
     return core_df
+
+def top_10_map (core_df):
+    core_df = core_df.set_index('country')
+    return core_df.tail(10)

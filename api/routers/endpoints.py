@@ -57,7 +57,6 @@ def get_list_countrys_of_continent (continent: str):
     results = list(covid.find({"continent":continent}, {"country":1, "_id":0}).distinct("country"))
     return loads(json_util.dumps(results))
 
-# construyendo
 @router.get("/continent/{country}/{var}")
 def get_data_one_var (country: str, var: str):
     results = list(covid.find({"country":country},{f"{var}":1, "country":country,"date":1, "_id":0}))

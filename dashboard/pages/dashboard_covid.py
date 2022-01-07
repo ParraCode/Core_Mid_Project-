@@ -115,7 +115,6 @@ def covid():
       col1, col2 = st.columns(2)
 
       ## Grafico 1 
-      col1.header('Grafico 1')
       # Lista de variables
       var_list1 = lista_variables(get_oneline())
       # Selector de variable
@@ -135,7 +134,6 @@ def covid():
 
 
       ## Grafico 2
-      col2.header('Grafico 2')
       # Lista de variables
       var_list2 = lista_variables(get_oneline())
       var_list2.remove(var_grafico1)
@@ -156,7 +154,6 @@ def covid():
 
 
       ## Grafico 3
-      col1.header('Grafico 3')
       # Lista de variables
       var_list3 = lista_variables(get_oneline())
       var_list3.remove(var_grafico1)
@@ -178,7 +175,6 @@ def covid():
 
 
       ## Grafico 4
-      col2.header('Grafico 4')
       # Lista de variables
       var_list4 = lista_variables(get_oneline())
       var_list4.remove(var_grafico1)
@@ -219,6 +215,11 @@ def covid():
       #funcion que dada esos datos me deje un dataset con nombre pais y el agregado de esa variable en una sola linea por un unico pais. 
       df_covid_map = country_one_var_df_map(request_data_map, var_map)
 
+      with st.expander("Tabla variables"):
+        st.write(df_covid_map)
+
+
+
       #Creating a base map
       m = folium.Map()
 
@@ -237,19 +238,9 @@ def covid():
       ).add_to(m)
 
       # call to render Folium map in Streamlit
-      folium_static(m,width=1120,height=450)
+      folium_static(m,width=1120,height=300)
 
-      data_table = get_all_data_base()
-      shows = alldb(data_table)
 
-      gb = GridOptionsBuilder.from_dataframe(shows)
-      gb.configure_pagination()
-      gb.configure_side_bar()
-      gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
-      gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-      gridOptions = gb.build()
-      data_table = AgGrid(shows, gridOptions=gridOptions, 
-                    enable_enterprise_modules=True, 
-                    allow_unsafe_jscode=True, 
-                    update_mode=GridUpdateMode.SELECTION_CHANGED)
+      st.write('Top 10')
+      st.bar_chart(top_10_map(df_covid_map))
 

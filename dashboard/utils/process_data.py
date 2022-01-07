@@ -19,7 +19,6 @@ def fechaYW_int_transf (core_df):
 def alldb (core_df):
     core_df = pd.DataFrame(core_df, columns = ['date', 'continent','country', 'totalConfirmed', 'confirmedDay',
     'deathsDay','icuPatients', 'hospPatients','positiveRate','newVaccinations','vaccinatedPerHundred','fullyVaccinatedPerHundred'])
-    core_df = core_df.drop(['continent','country'],   axis=1)
     core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
     core_df['positiveRate'] = core_df['positiveRate'].apply(lambda x: list(x.values())[0])
     core_df['vaccinatedPerHundred'] = core_df['vaccinatedPerHundred'].apply(lambda x: list(x.values())[0])
