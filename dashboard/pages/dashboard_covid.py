@@ -1,22 +1,10 @@
 
-# Consejo de Alvaro: para hacer el streamlit multipagina aqui solo hago referencia a las llamadas del los app = de los 
-# diferentes Strealits y luego los juntos aqui para crear ese dashboard multipagina. 
-# Tendria que crear un directorio que contuviese todas las paginas y que este al mismo nivel que este archivo 
-
-# streamlit run dashboard/dashboard.py
-
 # ---------------------------------------------------------------------------------------------------------------------------------------
 # Librerias
 
 import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import folium
 from streamlit_folium import folium_static
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import GridUpdateMode
 import datetime
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
@@ -25,6 +13,9 @@ import datetime
 from utils.process_data import *
 from utils.process_map import *
 from data.get_data_covid import *
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Funcion para paginar
 
 def covid():
 
@@ -152,7 +143,6 @@ def covid():
       # Meto el dataframe y ploteo 
       grafico_2 = col2.area_chart(data=df_merge_country34, width=0, height=0, use_container_width=True)
 
-
       ## Grafico 3
       # Lista de variables
       var_list3 = lista_variables(get_oneline())
@@ -218,8 +208,6 @@ def covid():
       with st.expander("Tabla variables"):
         st.write(df_covid_map)
 
-
-
       #Creating a base map
       m = folium.Map()
 
@@ -238,9 +226,8 @@ def covid():
       ).add_to(m)
 
       # call to render Folium map in Streamlit
-      folium_static(m,width=1120,height=300)
+      folium_static(m)
 
-
+      ## Grafico 2
       st.write('Top 10')
       st.bar_chart(top_10_map(df_covid_map))
-

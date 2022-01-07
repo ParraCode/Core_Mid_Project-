@@ -25,7 +25,6 @@ def country_location_coord (core_df):
     return core_df
 
 def variant_db_TR (core_df):
-    import pandas as pd
     core_df = pd.DataFrame(core_df, columns = ['date', 'country','variant', 'year', 'latitude','longitude','continentExp'])
     core_df['date'] = core_df['date'].apply(lambda x: list(x.values())[0][0:10])
     core_df['latitude'] = core_df['latitude'].apply(lambda x: list(x.values())[0]).astype(float)

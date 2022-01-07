@@ -1,6 +1,8 @@
 
-# Desde este archivo creo la api que sustenta al resto del pryecto. 
-# Este el archivo que voy a llamar desde consola y que pone a funcionar el resto de directorios de api/
+import os
+
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+import sentry_sdk
 
 from fastapi import FastAPI
 from .routers import endpoints
@@ -8,7 +10,22 @@ from .routers import endpoints
 # To run in shell:
 # uvicorn api.main:app --reload
 
-app = FastAPI()
+sentry_sdk.init(
+    dsn=os.getenv('dns_sentry'),  # CHANGE HERE
+    environment=os.getenv('ENV', 'dev'), # You should read it from environment variable
+    )
+
+app = FastAPI(
+    title='My FastAPI App',
+    description='Demo Sentry Integration',
+    version='1.0.0',
+)
+
+try:
+    app.add_middleware(SentryAsgiMiddleware)
+except Exception:
+    # pass silently if the Sentry integration failed
+    pass
 
 # Defino los router a mis archivo/s endopoint/s
 app.include_router(endpoints.router)
@@ -19,3 +36,7 @@ app.include_router(endpoints.router)
 def root():
     return {"API":"Covid Data Core Code School"}
 
+# Calling this endpoint to see if the setup works. If yes, an error message will show in Sentry dashboard
+@app.get('/sentry')
+async def sentry():
+    raise Exception('Test sentry integration')

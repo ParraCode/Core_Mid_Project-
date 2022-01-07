@@ -1,21 +1,24 @@
 
-import numpy as np
-import pandas as pd
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Librerias
+
 import streamlit as st
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
 from st_aggrid.shared import GridUpdateMode
-import plotly_express as px
 
-
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Funciones
 
 from utils.process_data import *
 from data.get_data_covid import *
 
 def eda ():
+
+  # ---------------------------------------------------------------------------------------------------------------------------------------
+  # Barra de menu
 
   st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
 
@@ -38,6 +41,9 @@ def eda ():
   </nav>
   """, unsafe_allow_html=True)
 
+  # ---------------------------------------------------------------------------------------------------------------------------------------
+  #Filters
+
   with st.container():
 
     col1, col2 = st.columns(2)
@@ -52,8 +58,13 @@ def eda ():
     list_countrys = get_list_countrys_of_continent(cotinent_selected)
     country_selected = col2.selectbox('Selecciona un pais', list_countrys)
 
+ # ---------------------------------------------------------------------------------------------------------------------------------------
+ # data
 
     data = get_all_data_base_TR(country_selected)
+
+ # ---------------------------------------------------------------------------------------------------------------------------------------
+ # Tablas y Report
 
     if country_selected is not None:
         df = alldb(data)
@@ -75,7 +86,6 @@ def eda ():
                     update_mode=GridUpdateMode.SELECTION_CHANGED)
         st.write('Puedes descargar este archivo en formato .csv')
         st.download_button(label='Download CSV',data = df.to_csv(), mime='text/csv')
-        
         
         #st.write(df)
         st.write('---')

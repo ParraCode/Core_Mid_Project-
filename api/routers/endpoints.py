@@ -1,8 +1,3 @@
-# Aqui defino los endopoints que van a ser todos los recursos de datos que voy a necesitar para hacer los graficos 
-# que los pasare previamente por get_data.py para ahi hacer las request que pueda utilizar streamlit
-
-# Consejo de Alvaro: puedo dividir los endopints en varios archvivos. Por ejmplo puedo usar este archivo solo 
-# para los datos de data_core/ y otro para los endpoints que vaya a crear a partir de data_extra/, por ejemplo.  
 
 from fastapi import APIRouter
 from ..conect_database.conect_mongo import covid, variant
@@ -11,11 +6,9 @@ from json import loads
 
 router = APIRouter()
 
-# COVID
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# 1
-# Trae todo los 
+# COVID
+ 
 @router.get("/alldb")
 def get_all_db ():
     results = list(covid.find({}, {"date":1,"continent":1,"country":1,"totalConfirmed":1,"totalDeaths":1,"deathsDay":1,"confirmedDay":1,"icuPatients":1,
@@ -23,13 +16,11 @@ def get_all_db ():
                                    "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"_id":0}))
     return loads(json_util.dumps(results))
 
-# Trae todo los 
 @router.get("/alldbmap/{var}")
 def get_all_db_map (var: str):
     results = list(covid.find({}, {"country":1,"population":1,f"{var}":1,"_id":0}))
     return loads(json_util.dumps(results))
 
-# Duda para marc
 @router.get("/alldboneline")
 def get_oneline ():
     results = list(covid.find({'country': 'Spain'}, {"population":0,"_id":0}))
@@ -62,8 +53,8 @@ def get_data_one_var (country: str, var: str):
     results = list(covid.find({"country":country},{f"{var}":1, "country":country,"date":1, "_id":0}))
     return loads(json_util.dumps(results))
 
-# VARIANT
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
+# VARIANT
 
 @router.get("/variant/{variants}")
 def get_variant_data_location (variants: str):
@@ -76,33 +67,3 @@ def get_variants_db ():
     results = list(variant.find({}, {"country":1, "variant":1, "longitude":1,"latitude":1,
                                     "_id":0}))
     return loads(json_util.dumps(results))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------------
