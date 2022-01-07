@@ -23,10 +23,16 @@ def get_all_db ():
                                    "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"_id":0}))
     return loads(json_util.dumps(results))
 
+# Trae todo los 
+@router.get("/alldbmap/{var}")
+def get_all_db_map (var: str):
+    results = list(covid.find({}, {"country":1,"population":1,f"{var}":1,"_id":0}))
+    return loads(json_util.dumps(results))
+
 # Duda para marc
 @router.get("/alldboneline")
 def get_oneline ():
-    results = list(covid.find({'country': 'Spain',}, {"_id":0}))
+    results = list(covid.find({'country': 'Spain'}, {"population":0,"_id":0}))
     return loads(json_util.dumps(results))
 
 @router.get("/alldb/{country}")

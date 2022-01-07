@@ -19,9 +19,6 @@ def variant ():
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="https://www.linkedin.com/in/miguelangelparrarodriguez/" target="_blank">LinkeIn</a>
         </li>
@@ -57,37 +54,37 @@ def variant ():
     variants_selected = st.selectbox('Selecciona las variantes', variant_list)
 
     data_select_variant = variants_map(get_variant_db(),variants_selected)
-    print(data_select_variant)
+    # print(data_select_variant)
         # Mapa 
     #st.map(data_select_variant)
 
     # ---------------------------------------------------------------------------------------------------------------------------------------
  
-    st.pydeck_chart(pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=pdk.ViewState(
-            latitude=37.76,
-            longitude=-122.4,
-            zoom=11,
-            pitch=50,
-        ),
-        layers=[
-            pdk.Layer(
-                'HexagonLayer',
-                data=data_select_variant,
-                get_position='[lon lat]',
-                radius=2000,
-                elevation_scale=9,
-                elevation_range=[0, 1000],
-                pickable=True,
-                extruded=True,
-            ),
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=data_select_variant,
-                get_position='[lon, lat]',
-                get_color='[200, 30, 0, 160]',
-                get_radius=2000,
-            ),
-        ],
-    ))
+    # st.pydeck_chart(pdk.Deck(
+    #     map_style='mapbox://styles/mapbox/light-v9',
+    #     initial_view_state=pdk.ViewState(
+    #         latitude=37.76,
+    #         longitude=-122.4,
+    #         zoom=11,
+    #         pitch=50,
+    #     ),
+    #     layers=[
+    #         pdk.Layer(
+    #             'HexagonLayer',
+    #             data=data_select_variant,
+    #             get_position='[lon lat]',
+    #             radius=2000,
+    #             elevation_scale=9,
+    #             elevation_range=[0, 1000],
+    #             pickable=True,
+    #             extruded=True,
+    #         ),
+    #         pdk.Layer(
+    #             'ScatterplotLayer',
+    #             data=data_select_variant,
+    #             get_position='[lon, lat]',
+    #             get_color='[200, 30, 0, 160]',
+    #             get_radius=2000,
+    #         ),
+    #     ],
+    # ))

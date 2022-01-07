@@ -10,21 +10,15 @@ def get_all_data_base():
     res = requests.get(base_url).json()
     return res
 
+def get_all_data_base_map(var):
+    base_url = url+f"/alldbmap/{var}"
+    res = requests.get(base_url).json()
+    return res
+
 def get_all_data_base_TR(country):
     base_url = url+f"/alldb/{country}"
     res = requests.get(base_url).json()
     return res
-
-def get_variant_db():
-    base_url = url+"/variant"
-    res = requests.get(base_url).json()
-    return res
-
-def get_variant_db_filtred(variants):
-    base_url = url+f"/variant/{variants}"
-    res = requests.get(base_url).json()
-    return res
-
 
 def get_list_continent():
     base_url = url+"/continent"
@@ -51,3 +45,4 @@ def get_data_one_country(country,var):
     base_url = url+f"/continent/{country}/{var}"
     res = requests.get(base_url).json()
     return res
+

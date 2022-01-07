@@ -12,21 +12,21 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import pydeck as pdk
+import folium
+from streamlit_folium import folium_static
+from st_aggrid import AgGrid
+from st_aggrid.grid_options_builder import GridOptionsBuilder
+from st_aggrid.shared import GridUpdateMode
 import datetime
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 # Funciones
 
 from utils.process_data import *
+from utils.process_map import *
 from data.get_data_covid import *
 
 def covid():
-
-  # ---------------------------------------------------------------------------------------------------------------------------------------
-  # Configuracion de pagina 
-
-  #st.set_page_config(page_title="Covid compare", layout="wide")
 
   # ---------------------------------------------------------------------------------------------------------------------------------------
   # Barra de menu 
@@ -35,15 +35,12 @@ def covid():
 
   st.markdown("""
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #8ed3ac;">
-    <a class="navbar-brand" href="https://www.linkedin.com/in/miguelangelparrarodriguez/" target="_blank">Miguel A. Parra</a>
+    <a class="navbar-brand" href="https://www.linkedin.com/in/miguelangelparrarodriguez/" target="_blank">miguelangelparra.tech</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="https://www.linkedin.com/in/miguelangelparrarodriguez/" target="_blank">LinkeIn</a>
         </li>
@@ -111,9 +108,9 @@ def covid():
             - population: poblacion total del pais
         """)
 
-
   # ---------------------------------------------------------------------------------------------------------------------------------------
   # Graficos 
+
   with st.container():
       col1, col2 = st.columns(2)
 
@@ -201,3 +198,58 @@ def covid():
 
       # Meto el dataframe y ploteo 
       grafico_4 = col2.area_chart(data=df_merge_country78, width=0, height=0, use_container_width=True)
+
+  # ---------------------------------------------------------------------------------------------------------------------------------------
+  # Mapa
+  with st.container():
+
+      ## Grafico 1 
+      st.markdown("<h3 style='text-align:center'><b>Mapa Coropletico</b></h3>", unsafe_allow_html=True)
+
+      # Lista de variables
+      var_map_list = lista_variables(get_oneline())
+      # Selector de variable
+      var_map = st.selectbox('Selecciona la variable para el Mapa Coropletico', var_map_list)
+      #Setting up the world countries data URL
+      url = 'https://raw.githubusercontent.com/python-visualization/folium/master/examples/data'
+      country_shapes = f'{url}/world-countries.json'
+
+      #llamada a funcion api que me todas las variables y el nombre del pais
+      request_data_map = get_all_data_base_map(var_map)
+      #funcion que dada esos datos me deje un dataset con nombre pais y el agregado de esa variable en una sola linea por un unico pais. 
+      df_covid_map = country_one_var_df_map(request_data_map, var_map)
+
+      #Creating a base map
+      m = folium.Map()
+
+      folium.Choropleth(
+      #The GeoJSON data to represent the world country
+      geo_data=country_shapes,
+      name='choropleth COVID-19',
+      data=df_covid_map,
+      #The column aceppting list with 2 value; The country name and  the numerical value
+      columns=['country', var_map],
+      key_on='feature.properties.name',
+      fill_color='YlOrRd',
+      fill_opacity=0.7,
+      line_opacity=1,
+      nan_fill_color='white'
+      ).add_to(m)
+
+      # call to render Folium map in Streamlit
+      folium_static(m,width=1120,height=450)
+
+      data_table = get_all_data_base()
+      shows = alldb(data_table)
+
+      gb = GridOptionsBuilder.from_dataframe(shows)
+      gb.configure_pagination()
+      gb.configure_side_bar()
+      gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
+      gb.configure_selection(selection_mode="multiple", use_checkbox=True)
+      gridOptions = gb.build()
+      data_table = AgGrid(shows, gridOptions=gridOptions, 
+                    enable_enterprise_modules=True, 
+                    allow_unsafe_jscode=True, 
+                    update_mode=GridUpdateMode.SELECTION_CHANGED)
+
