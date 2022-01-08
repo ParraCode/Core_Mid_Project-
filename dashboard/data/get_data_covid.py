@@ -5,42 +5,38 @@
 import requests
 from config.config_api import url 
 
-def get_all_data_base():
-    base_url = url+"/alldb"
-    res = requests.get(base_url).json()
-    return res
-
+# dashboard covid
 def get_all_data_base_map(var):
     base_url = url+f"/alldbmap/{var}"
     res = requests.get(base_url).json()
     return res
 
+# dashboard EDA
 def get_all_data_base_TR(country):
     base_url = url+f"/alldb/{country}"
     res = requests.get(base_url).json()
     return res
 
+# dashboard covid
 def get_list_continent():
     base_url = url+"/continent"
     res = requests.get(base_url).json()
     return res
 
-def country_location():
-    base_url = url+"/country/location"
-    res = requests.get(base_url).json()
-    return res
-
-# Endpoint Numero 1
+# dashboard covid
+# dashboard EDA
 def get_list_countrys_of_continent(continent):
     base_url = url+f"/continent/{continent}"
     res = requests.get(base_url).json()
     return res
 
+# dashboard covid
 def get_oneline():
     base_url = url+"/alldboneline"
     res = requests.get(base_url).json()
     return res
 
+# dashboard covid
 def get_data_one_country(country,var):
     base_url = url+f"/continent/{country}/{var}"
     res = requests.get(base_url).json()

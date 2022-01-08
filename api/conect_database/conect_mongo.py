@@ -12,5 +12,3 @@ db = MongoClient(URL).get_database("Covid19")
 
 # saco la coleccion covid de mongo 
 covid = db['CovidDB']
-
-variant = db['VariantsDB']
