@@ -2,20 +2,7 @@
 https://www.kaggle.com/baguspurnama/covid-confirmed-global
 
 - Data extra sobre Covid: 
-https://www.ecdc.europa.eu/en/covid-19/data
-
-    1. Data on COVID-19 vaccination in the EU/EEA: 
-    https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea 
-    2. Data on SARS-CoV-2 variants in the EU/EEA: 
-    https://www.ecdc.europa.eu/en/publications-data/data-virus-variants-covid-19-eueea
-    3. Data on the daily number of new reported COVID-19 cases and deaths by EU/EEA country:
-    https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country
-    4. Data on hospital and ICU admission rates and current occupancy for COVID-19:
-    https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+https://github.com/owid/covid-19-data/tree/master/public/data
 
 - Data Extra sobre Lat Long Paises: 
 https://www.kaggle.com/nikitagrec/world-capitals-gps
-
-- Ejemplo dashboard sobre tracker de vacunacion: 
-    1. https://qap.ecdc.europa.eu/public/extensions/COVID-19/vaccine-tracker.html#uptake-tab
-    2. https://qap.ecdc.europa.eu/public/extensions/COVID-19/vaccine-tracker.html#age-group-tab #Segmentado por tramo de edades

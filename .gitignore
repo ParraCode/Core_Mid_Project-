@@ -1,2 +1,6 @@
 tutorials.txt
+source_data.txt
 .env
+__pycache__
+data_cleaning.ipynb
+aux.ipynb
