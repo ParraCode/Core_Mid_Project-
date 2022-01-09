@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from bson import json_util
 from json import loads
 
-from ..conect_database.conect_mongo import covid
+from conect_database.conect_mongo import covid
 
 router = APIRouter()
 

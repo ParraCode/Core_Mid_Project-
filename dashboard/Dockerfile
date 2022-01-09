@@ -1,9 +1,11 @@
 FROM python:3.9.7
 
-ADD ./ /api
+WORKDIR /dashboard
 
-WORKDIR /api
+COPY ./requirements.txt /dashboard
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+COPY ./ /dashboard
+
+CMD ["streamlit", "run",  "streamlit.py"]
