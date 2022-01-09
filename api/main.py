@@ -5,7 +5,7 @@ from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 import sentry_sdk
 
 from fastapi import FastAPI
-from .routers import endpoints
+from routers import endpoints
 
 # To run in shell:
 # uvicorn api.main:app --reload
