@@ -8,4 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY ./ /dashboard
 
-CMD ["streamlit", "run",  "streamlit.py"]
+ENV PORT=8080
+
+CMD ["sh", "-c", "streamlit run --server.port $PORT streamlit.py"]
