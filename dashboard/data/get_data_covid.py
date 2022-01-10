@@ -3,7 +3,11 @@
 # funciones para recoger datos y luego jugar con ellos en los graficos 
 
 import requests
-from config.config_api import url 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+url = os.getenv("url")
 
 # dashboard covid
 def get_all_data_base_map(var):
