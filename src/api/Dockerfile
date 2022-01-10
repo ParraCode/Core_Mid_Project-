@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY ./ /api
 
-CMD ["uvicorn", "app:main"]
+CMD ["uvicorn", "main:app"]
