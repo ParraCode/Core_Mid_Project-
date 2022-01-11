@@ -19,15 +19,14 @@ def get_all_db_map (var: str):
 # dashboard covid
 @router.get("/alldboneline")
 def get_oneline ():
-    results = list(covid.find({'country': 'Spain'}, {"population":0,"_id":0}))
+    results = list(covid.find({'confirmedDay':0,'country': 'Spain'}, {"Year":0,"Month":0,"Week":0,
+                                                                      "Day":0,"population":0,"_id":0}).distinct("confirmedDay"))
     return loads(json_util.dumps(results))
 
 # dashboard EDA
 @router.get("/alldb/{country}")
 def get_all_db_country (country: str):
-    results = list(covid.find({"country":country}, {"date":1,"continent":1,"country":1,"totalConfirmed":1,"totalDeaths":1,"deathsDay":1,"confirmedDay":1,"icuPatients":1,
-                                   "hospPatients":1,"totalTest":1,"positiveRate":1,"testPerCase":1,"newVaccinations":1,
-                                   "vaccinatedPerHundred":1,"fullyVaccinatedPerHundred":1,"icuPatients":1,"_id":0}))
+    results = list(covid.find({"country":country}, {"Year":0,"Month":0,"Week":0,"Day":0,"_id":0}))
     return loads(json_util.dumps(results))
 
 # dashboard covid
